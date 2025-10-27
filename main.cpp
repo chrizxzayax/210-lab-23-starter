@@ -28,18 +28,14 @@ int main() {
         return 1;
     }
     while (nameCount < SZ_NAMES && fin >> names[nameCount]) {
-        nameCount++;
+        ++nameCount;
     }
     fin.close();
-    ifstream fin1("colors.txt");
-    if (!fin1) {
-        cerr << "Error opening colors.txt file!" << endl;
+    if (nameCount == 0) {
+        cerr << "No names found in names.txt file!" << endl;
         return 1;
     }
-    while (colorCount < SZ_COLORS && fin1 >> colors[colorCount]) {
-        colorCount++;
-    }
-    fin1.close();
+
 
     int colorCount = 0;
     ifstream finc1("colors.txt");
@@ -47,11 +43,50 @@ int main() {
         cerr << "Error opening colors.txt file!" << endl;
         return 1;
     }
-    while (colorCount < SZ_COLORS && finc1 >> colors[colorCount]) {
-        colorCount++;
+    while (colorCount < SZ_COLORS && finc1 >> colors[colorCount]) {// finished reading the colors
+        ++colorCount;
     }
     finc1.close();
+    if (colorCount == 0) {
+        cerr << "No colors found in colors.txt file!" << endl;
+        return 1;
+    }
+
+    list<Goat> trip;
+
+    bool running = true;
+    while (running) {//
+        int choice = main_menu();
+        switch (choice) {
+            case 1:
+                add_goat(trip, names, nameCount, colors, colorCount);
+                break;
+            case 2:
+                delete_goat(trip);
+                break;
+            case 3:
+                display_trip(trip);
+                break;
+            case 4:
+                running = false;
+                cout << "Exiting program." << endl;
+                break;
+        }
+    }
 
     return 0;
+}
+
+int main_menu() {
+    // start making th display menu and get user choice
+    int choice;
+    cout << "\nGoat Trip Menu\n";
+    cout << "1. Add a goat to the trip\n";
+    cout << "2. Delete a goat from the trip\n";
+    cout << "3. Display the trip goats\n";
+    cout << "4. Exit\n";
+    cout << "Enter your choice: ";
+    cin >> choice;
+    return choice;
 }
 
