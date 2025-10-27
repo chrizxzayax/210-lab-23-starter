@@ -6,7 +6,7 @@
 using namespace std;
 
 class Goat {
-private:
+private://finished reading the code
     string name;
     int age;
     string color;
