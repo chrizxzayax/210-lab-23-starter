@@ -68,8 +68,13 @@ int main() {
                 display_trip(trip);
                 break;
             case 4:
+                cout << "Goodbye — exiting Goat Manager 3001.\n";
                 running = false;
-                cout << "Exiting program." << endl;
+                break;
+            default:
+                // validation for menu choice for validation's sake
+
+                cout << "Invalid choice.\n";
                 break;
         }
     }
@@ -90,3 +95,20 @@ int main_menu() {
     return choice;
 }
 
+void add_goat(list<Goat> &trip, string names[], int nameCount, string colors[], int colorCount) {
+    if (nameCount == 0 || colorCount == 0) {
+        cout << "Cannot add goat: No names or colors available.\n";
+        return;
+    }
+
+    int nis = rand() % nameCount;
+    int cis = rand() % colorCount;
+    int age = rand() % (MAX_AGE + 1);
+    
+    string name = names[nis];
+    string color = colors[cis];
+    Goat newGoat(name, age, color);
+    trip.push_back(newGoat);
+
+    cout << "Added goat: " << name << ", Age: " << age << ", Color: " << color << endl;
+}
