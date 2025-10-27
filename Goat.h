@@ -34,6 +34,10 @@ public:
         if (age != other.age) return age < other.age;
         return color < other.color;
     }
+    friend ostream& operator<<(ostream& os, const Goat& g) {
+        os << g.name << " (" << g.age << ", " << g.color << ")";
+        return os;
+    }
 };
 
 #endif

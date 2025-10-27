@@ -111,23 +111,27 @@ int main_menu() {
 }
 
 void add_goat(list<Goat> &trip, string names[], int nameCount, string colors[], int colorCount) {
-    if (nameCount == 0 || colorCount == 0) {
-        cout << "Cannot add goat: No names or colors available.\n";
+     if (nameCount == 0 || colorCount == 0) {
+        cout << "No names or colors available to add a goat.\n";
         return;
     }
+    // Randomly pick indices
+    int ni = rand() % nameCount;
+    int ci = rand() % colorCount;
+    int age = rand() % (MAX_AGE + 1); // ages 0..MAX_AGE inclusive
 
-    int nis = rand() % nameCount;
-    int cis = rand() % colorCount;
-    int age = rand() % (MAX_AGE + 1);
-    
-    string name = names[nis];
-    string color = colors[cis];
+    string name = names[ni];
+    string color = colors[ci];
+
+    // Create goat via full-parameter constructor
     Goat g(name, age, color);
+
+    // Append to end of trip
     trip.push_back(g);
 
-    cout << "Added goat: " << g << "\n";
-
+    cout << "Added goat: " << g << endl;
 }
+
 
 //to display numbered list and return index of selected goat
 int select_goat(const list<Goat>& trip) {
@@ -144,12 +148,56 @@ int select_goat(const list<Goat>& trip) {
     }
 
     int choice;
-    cout << "Select a goat by number (or 0 to cancel): ";
-    cin >> choice;
-
-    if (choice < 0 || choice >= index) {
-        cout << "Invalid selection.\n";
-        return -1;
+    while (true) {
+        cout << "Choice --> ";
+        if (!(cin >> choice)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Please enter a valid integer.\n";
+            continue;
+        }
+        if (choice < 0 || choice >= index) {
+            cout << "Please enter a number between 0 and " << (index - 1) << ".\n";
+            continue;
+        }
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return choice; // 0 means cancel, else 1-based index
     }
-    return choice - 1; // return zero-based index
+}
+
+void delete_goat(list<Goat> &trip) {
+    if (trip.empty()) {
+        cout << "No goats available to delete.\n";
+        return;
+    }
+
+    int choice = select_goat(trip);
+    if (choice == 0) {
+        cout << "Delete operation cancelled.\n";
+        return;
+    }
+
+    int index = 1;
+    for (auto it = trip.begin(); it != trip.end(); ++it) {
+        if (index == choice) {
+            cout << "Deleting goat: " << *it << endl;
+            trip.erase(it);
+            return;
+        }
+    }
+    cout << "Error: Goat not found.\n";
+}
+
+void display_trip(const list<Goat> &trip) {
+    cout << "\nCurrent trip (" << trip.size() << " goats):\n";
+    if (trip.empty()) {
+        cout << "No goats in the trip to display.\n";
+        return;
+    }
+    int index = 1;
+    
+    for (const Goat &g : trip) {
+        cout << " - [" << index << "] " << g << endl;
+        ++index;
+    }
 }
