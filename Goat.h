@@ -3,6 +3,7 @@
 #ifndef GOAT_H
 #define GOAT_H
 #include <iostream>
+#include <string>// for strings
 using namespace std;
 
 class Goat {
@@ -10,9 +11,12 @@ private://finished reading the code
     string name;
     int age;
     string color;
+
 public: 
     Goat()                          { name = ""; age = 0; color = ""; }
-    // write three more constructors
+    Goat(const string& n) : name(n), age(0), color("") {}
+    Goat(const string& n, int a) : name(n), age(a), color("") {}
+    Goat(const string& n, int a, const string& c) : name(n), age(a), color(c) {}
 
     // setters and getters
     void set_name(string n)         { name = n; };
