@@ -5,32 +5,33 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
+#include <limits>    
 #include "Goat.h"
 using namespace std;
 
-const int SZ_NAMES = 200, SZ_COLORS = 25, MAX_AGE = 20;
+const int SZ_NAMES = 200;
+const int SZ_COLORS = 25;
+const int MAX_AGE = 20;
 
-int select_goat(const list<Goat> trip);
+int select_goat(const list<Goat>& trip);
 void delete_goat(list<Goat> &trip);
 void add_goat(list<Goat> &trip, string names[], int nameCount, string colors[], int colorCount);
-void display_trip(const list<Goat> trip);
+void display_trip(const list<Goat> &trip);
 int main_menu();
 
 int main() {
-    srand(static_cast<unsigned int>(time(0)));
+    srand(static_cast<unsigned>(time(0)));
 
     // read & populate arrays for names and colors
 
     string names[SZ_NAMES];
-    string colors[SZ_COLORS];
-
     int nameCount = 0;
     ifstream fin("names.txt");
     if (!fin) {
         cerr << "Error opening names.txt file!" << endl;
         return 1;
     }
-    while (nameCount < SZ_NAMES && fin >> names[nameCount]) {
+    while (nameCount < SZ_NAMES && (fin >> names[nameCount])) {
         ++nameCount;
     }
     fin.close();
@@ -39,7 +40,7 @@ int main() {
         return 1;
     }
 
-
+    string colors[SZ_COLORS];
     int colorCount = 0;
     ifstream finc1("colors.txt");
     if (!finc1) {
@@ -106,7 +107,7 @@ int main_menu() {
             continue;
         }
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    return choice;
+        return choice;
     }
 }
 
@@ -173,18 +174,18 @@ void delete_goat(list<Goat> &trip) {
 
     int choice = select_goat(trip);
     if (choice == 0) {
-        cout << "Delete operation cancelled.\n";
+        cout << "Deletion cancelled.\n";
         return;
     }
-
     int index = 1;
-    for (auto it = trip.begin(); it != trip.end(); ++it) {
+    for (auto it = trip.begin(); it != trip.end(); ++it, ++index) {
         if (index == choice) {
             cout << "Deleting goat: " << *it << endl;
             trip.erase(it);
             return;
         }
     }
+    
     cout << "Error: Goat not found.\n";
 }
 

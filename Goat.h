@@ -20,11 +20,11 @@ public:
     Goat(const string& n, int a, const string& c) : name(n), age(a), color(c) {}
 
     // setters and getters
-    void set_name(string n)         { name = n; };
-    string get_name() const         { return name; };
-    void set_age(int a)             { age = a; };
+    void set_name(const string& n)  { name = n; }
+    string get_name() const         { return name; }
+    void set_age(int a)             { age = a; }
     int get_age() const             { return age; }
-    void set_color(string c)        { color = c; }
+    void set_color(const string& c) { color = c; }
     string get_color() const        { return color; }
 
     // write overloaded < operator for the std::list
