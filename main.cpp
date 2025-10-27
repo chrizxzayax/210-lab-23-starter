@@ -7,10 +7,10 @@ using namespace std;
 
 const int SZ_NAMES = 200, SZ_COLORS = 25, MAX_AGE = 20;
 
-int select_goat(list<Goat> trip);
+int select_goat(const list<Goat> trip);
 void delete_goat(list<Goat> &trip);
 void add_goat(list<Goat> &trip, string names[], int nameCount, string colors[], int colorCount);// fixed prototype
-void display_trip(list<Goat> trip);
+void display_trip(const list<Goat> trip);
 int main_menu();
 
 int main() {
@@ -23,12 +23,22 @@ int main() {
 
 
     ifstream fin("names.txt");
-    int i = 0;
-    while (fin >> names[i++]);
+    if (!fin) {
+        cerr << "Error opening names.txt file!" << endl;
+        return 1;
+    }
+    while (nameCount < SZ_NAMES && fin >> names[nameCount]) {
+        nameCount++;
+    }
     fin.close();
     ifstream fin1("colors.txt");
-    i = 0;
-    while (fin1 >> colors[i++]);
+    if (!fin1) {
+        cerr << "Error opening colors.txt file!" << endl;
+        return 1;
+    }
+    while (colorCount < SZ_COLORS && fin1 >> colors[colorCount]) {
+        colorCount++;
+    }
     fin1.close();
 
 

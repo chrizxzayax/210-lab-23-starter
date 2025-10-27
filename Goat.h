@@ -14,6 +14,7 @@ private://finished reading the code
 
 public: 
     Goat()                          { name = ""; age = 0; color = ""; }
+    // overloaded constructors
     Goat(const string& n) : name(n), age(0), color("") {}
     Goat(const string& n, int a) : name(n), age(a), color("") {}
     Goat(const string& n, int a, const string& c) : name(n), age(a), color(c) {}
@@ -27,6 +28,12 @@ public:
     string get_color() const        { return color; }
 
     // write overloaded < operator for the std::list
+
+    bool operator<(const Goat& other) const {
+        if (name != other.name) return name < other.name;
+        if (age != other.age) return age < other.age;
+        return color < other.color;
+    }
 };
 
 #endif
