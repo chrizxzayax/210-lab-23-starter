@@ -9,7 +9,7 @@ const int SZ_NAMES = 200, SZ_COLORS = 25, MAX_AGE = 20;
 
 int select_goat(const list<Goat> trip);
 void delete_goat(list<Goat> &trip);
-void add_goat(list<Goat> &trip, string names[], int nameCount, string colors[], int colorCount);// fixed prototype
+void add_goat(list<Goat> &trip, string names[], int nameCount, string colors[], int colorCount);
 void display_trip(const list<Goat> trip);
 int main_menu();
 
@@ -21,7 +21,7 @@ int main() {
     string names[SZ_NAMES];
     string colors[SZ_COLORS];
 
-
+    int nameCount = 0;
     ifstream fin("names.txt");
     if (!fin) {
         cerr << "Error opening names.txt file!" << endl;
@@ -41,8 +41,16 @@ int main() {
     }
     fin1.close();
 
-
-
+    int colorCount = 0;
+    ifstream finc1("colors.txt");
+    if (!finc1) {
+        cerr << "Error opening colors.txt file!" << endl;
+        return 1;
+    }
+    while (colorCount < SZ_COLORS && finc1 >> colors[colorCount]) {
+        colorCount++;
+    }
+    finc1.close();
 
     return 0;
 }
